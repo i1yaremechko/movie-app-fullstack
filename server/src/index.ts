@@ -1,20 +1,23 @@
-import express, {Request, Response} from "express"
+import express from "express"
 import cors from "cors"
-import dotenv from "dotenv"
-// import prisma from "./prisma.js"
-
-dotenv.config()
+import helmet from "helmet"
 
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = Number(process.env.PORT) || 5000
 
-app.use(cors())
+app.use(helmet())
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+  })
+)
 app.use(express.json())
 
-app.get("/api/health", (req: Request, res: Response) => {
-  res.json({status: "Server is running with TypeScript!"})
+app.get("/api/health", (_req, res) => {
+  res.json({status: "ok", time: new Date().toISOString()})
 })
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
+  console.log(`Server running on http://localhost:${PORT}`)
 })
