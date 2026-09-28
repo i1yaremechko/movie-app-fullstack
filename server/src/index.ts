@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import helmet from "helmet"
+import {prisma} from "./lib/prisma.js"
 
 const app = express()
 const PORT = Number(process.env.PORT) || 5000
@@ -14,8 +15,9 @@ app.use(
 )
 app.use(express.json())
 
-app.get("/api/health", (_req, res) => {
-  res.json({status: "ok", time: new Date().toISOString()})
+app.get("/api/health", async (_req, res) => {
+  const users = await prisma.user.count()
+  res.json({status: "ok", users})
 })
 
 app.listen(PORT, () => {
