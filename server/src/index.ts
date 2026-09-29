@@ -6,6 +6,9 @@ import path from "node:path"
 import {fileURLToPath} from "node:url"
 import {prisma} from "./lib/prisma.js"
 import authRouter from "./routes/auth.js"
+import favoritesRouter from "./routes/favorites.js"
+import commentsRouter from "./routes/comments.js"
+import feedbackRouter from "./routes/feedback.js"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -42,6 +45,9 @@ app.get("/api/health", async (_req, res) => {
 })
 
 app.use("/api/auth", authRouter)
+app.use("/api/favorites", favoritesRouter)
+app.use("/api/comments", commentsRouter)
+app.use("/api/feedback", feedbackRouter)
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
